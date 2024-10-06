@@ -32,8 +32,9 @@
   <h1>Birthday Celebration</h1>
   <input type="text" id="nameInput" class="inputField" placeholder="Enter Name" required>
   <input type="datetime-local" id="dateInput" class="inputField" placeholder="Enter Countdown Date" required>
-  <input type="text" id="messageInput" class="inputField" placeholder="Enter Message" required>
-  <input type="file" id="imageInput" class="inputField" accept="image/*" required>
+  <input type="text" id="firstMessageInput" class="inputField" placeholder="Enter 1st Message" required>
+  <input type="text" id="secondMessageInput" class="inputField" placeholder="Enter 2nd Message" required>
+  <input type="file" id="videoInput" class="inputField" accept="video/*" required>
   <button class="button" onclick="generateLink()">Submit</button>
 
   <div class="link" id="generatedLink"></div>
@@ -42,16 +43,17 @@
     function generateLink() {
       const name = document.getElementById('nameInput').value;
       const countdownDate = new Date(document.getElementById('dateInput').value).getTime();
-      const message = document.getElementById('messageInput').value;
-      const imageFile = document.getElementById('imageInput').files[0];
+      const firstMessage = document.getElementById('firstMessageInput').value;
+      const secondMessage = document.getElementById('secondMessageInput').value;
+      const videoFile = document.getElementById('videoInput').files[0];
 
-      if (!name || !countdownDate || !message || !imageFile) {
+      if (!name || !countdownDate || !firstMessage || !secondMessage || !videoFile) {
         alert("Please fill out all fields.");
         return;
       }
 
-      // Create a unique link (could be improved with actual URL routing)
-      const uniqueLink = `countdown.html?name=${encodeURIComponent(name)}&message=${encodeURIComponent(message)}&image=${encodeURIComponent(URL.createObjectURL(imageFile))}&countdownDate=${countdownDate}`;
+      // Create a unique link
+      const uniqueLink = `countdown.html?name=${encodeURIComponent(name)}&firstMessage=${encodeURIComponent(firstMessage)}&secondMessage=${encodeURIComponent(secondMessage)}&video=${encodeURIComponent(URL.createObjectURL(videoFile))}&countdownDate=${countdownDate}`;
       
       // Display the generated link
       const linkElement = document.getElementById('generatedLink');
