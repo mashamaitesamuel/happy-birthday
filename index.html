@@ -1,0 +1,159 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2580
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 <!DOCTYPE html>\
+<html lang="en">\
+<head>\
+  <meta charset="UTF-8">\
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">\
+  <title>Birthday Countdown</title>\
+  <style>\
+    body \{\
+      background-color: #50C878; /* Emerald green */\
+      color: #fff;\
+      font-family: Arial, sans-serif;\
+      text-align: center;\
+      margin: 0;\
+      padding: 0;\
+    \}\
+    #countdown \{\
+      font-size: 48px;\
+      margin-top: 50px;\
+    \}\
+    #happyBirthdayMessage \{\
+      font-size: 60px;\
+      display: none; /* Hidden until countdown finishes */\
+    \}\
+    #customMessage \{\
+      font-size: 24px;\
+      margin-top: 20px;\
+      display: none;\
+    \}\
+    .balloon \{\
+      position: absolute;\
+      bottom: -150px;\
+      animation: float 6s infinite;\
+    \}\
+    @keyframes float \{\
+      0% \{\
+        bottom: -150px;\
+      \}\
+      100% \{\
+        bottom: 100%;\
+      \}\
+    \}\
+    /* Input Styles */\
+    .inputField \{\
+      margin: 20px;\
+      padding: 10px;\
+      font-size: 18px;\
+    \}\
+  </style>\
+</head>\
+<body>\
+  <h1>Countdown to Birthday Celebration</h1>\
+\
+  <div>\
+    <label for="dateInput">Countdown Date:</label>\
+    <input type="datetime-local" id="dateInput" class="inputField">\
+  </div>\
+  <div>\
+    <label for="nameInput">Name:</label>\
+    <input type="text" id="nameInput" class="inputField">\
+  </div>\
+  <div>\
+    <label for="messageInput">Message:</label>\
+    <input type="text" id="messageInput" class="inputField">\
+  </div>\
+\
+  <button onclick="startCountdown()">Start Countdown</button>\
+\
+  <div id="countdown"></div>\
+  \
+  <div id="happyBirthdayMessage"></div>\
+  <div id="customMessage"></div>\
+\
+  <script>\
+    let countdownDate, name, message;\
+\
+    function startCountdown() \{\
+      countdownDate = new Date(document.getElementById('dateInput').value).getTime();\
+      name = document.getElementById('nameInput').value;\
+      message = document.getElementById('messageInput').value;\
+\
+      const countdownElement = document.getElementById('countdown');\
+\
+      const interval = setInterval(function() \{\
+        const now = new Date().getTime();\
+        const distance = countdownDate - now;\
+\
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));\
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));\
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));\
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);\
+\
+        countdownElement.innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";\
+\
+        if (distance < 0) \{\
+          clearInterval(interval);\
+          countdownElement.innerHTML = "";\
+          triggerCelebration();\
+        \}\
+      \}, 1000);\
+    \}\
+\
+    function triggerCelebration() \{\
+      const happyBirthdayMessage = document.getElementById('happyBirthdayMessage');\
+      const customMessage = document.getElementById('customMessage');\
+\
+      happyBirthdayMessage.innerHTML = "Happy Birthday " + name + "!";\
+      customMessage.innerHTML = message;\
+\
+      happyBirthdayMessage.style.display = "block";\
+      customMessage.style.display = "block";\
+\
+      createBalloons();\
+      createCandles();\
+    \}\
+\
+    function createBalloons() \{\
+      for (let i = 0; i < 20; i++) \{\
+        let balloon = document.createElement("div");\
+        balloon.classList.add("balloon");\
+        balloon.style.left = Math.random() * 100 + "vw";\
+        balloon.style.backgroundColor = getRandomColor();\
+        balloon.style.width = "30px";\
+        balloon.style.height = "50px";\
+        balloon.style.borderRadius = "50%";\
+        document.body.appendChild(balloon);\
+      \}\
+    \}\
+\
+    function createCandles() \{\
+      for (let i = 0; i < 10; i++) \{\
+        let candle = document.createElement("div");\
+        candle.classList.add("balloon");\
+        candle.style.left = Math.random() * 100 + "vw";\
+        candle.style.backgroundColor = getRandomColor();\
+        candle.style.width = "10px";\
+        candle.style.height = "70px";\
+        document.body.appendChild(candle);\
+      \}\
+    \}\
+\
+    function getRandomColor() \{\
+      let letters = "0123456789ABCDEF";\
+      let color = "#";\
+      for (let i = 0; i < 6; i++) \{\
+        color += letters[Math.floor(Math.random() * 16)];\
+      \}\
+      return color;\
+    \}\
+  </script>\
+</body>\
+</html>\
+}
