@@ -16,55 +16,45 @@
       display: flex;
       flex-direction: column;
       justify-content: center; /* Center vertically */
+      align-items: center; /* Center horizontally */
     }
     #countdown {
-      font-size: 192px; /* Four times the size */
-      margin: 50px 0; /* Space from the top */
+      font-size: 96px; /* Two times the size */
+      margin: 20px 0; /* Space from the top */
       transition: text-shadow 0.5s;
-      display: flex; /* Flexbox for centering */
-      justify-content: center; /* Center horizontally */
-      align-items: center; /* Center vertically */
     }
-    #happyBirthdayMessage {
+    #happyBirthdayMessage, #firstMessage, #secondMessage {
       font-size: 80px; /* Very big */
       display: none;
     }
-    #customMessage {
-      font-size: 40px; /* Smaller than the name */
-      display: none;
-    }
-    #uploadedImage {
+    #uploadedVideo {
       display: none; /* Initially hidden */
-      margin: 20px auto; /* Center and add margin */
-      max-width: 60%; /* Limit image width */
+      width: 80%; /* Limit video width */
       height: auto; /* Maintain aspect ratio */
-      padding-bottom: 20px; /* Space between image and page border */
-    }
-    .button {
-      padding: 10px 20px;
-      position: absolute;
-      left: 20px; /* Position the button to the left */
-      bottom: 20px; /* Position the button at the bottom */
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
 
   <div id="countdown"></div>
-  <div id="happyBirthdayMessage"></div>
-  <div id="customMessage"></div>
-  <img id="uploadedImage" src="" alt="Uploaded Image">
-  <button class="button" onclick="goBack()">Back</button>
+  <div id="firstMessage"></div>
+  <div id="secondMessage"></div>
+  <video id="uploadedVideo" controls loop></video>
 
   <script>
     const params = new URLSearchParams(window.location.search);
     const countdownDate = params.get("countdownDate");
     const name = params.get("name");
-    const message = params.get("message");
-    const imageSrc = params.get("image");
+    const firstMessageText = params.get("firstMessage");
+    const secondMessageText = params.get("secondMessage");
+    const videoSrc = params.get("video");
 
     function startCountdown() {
       const countdownElement = document.getElementById('countdown');
+      const firstMessage = document.getElementById('firstMessage');
+      const secondMessage = document.getElementById('secondMessage');
+      const uploadedVideo = document.getElementById('uploadedVideo');
       const interval = setInterval(function() {
         const now = new Date().getTime();
         const distance = countdownDate - now;
@@ -77,37 +67,44 @@
         countdownElement.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
 
         // Glow effects for countdown
-        if (distance < 20000 && distance >= 10000) {
+        if (distance < 60000 && distance >= 30000) {
           countdownElement.style.textShadow = "0 0 20px yellow, 0 0 30px yellow";
-        } else if (distance < 10000 && distance >= 5000) {
+        } else if (distance < 30000 && distance >= 20000) {
           countdownElement.style.textShadow = "0 0 30px red, 0 0 50px red";
-        } else if (distance < 5000) {
+        } else if (distance < 20000 && distance >= 10000) {
           countdownElement.style.textShadow = "0 0 40px orange, 0 0 60px orange";
+        } else if (distance < 10000 && distance >= 5000) {
+          countdownElement.style.textShadow = "0 0 50px purple, 0 0 70px purple";
+        } else if (distance < 5000 && distance >= 3000) {
+          countdownElement.style.textShadow = "0 0 60px green, 0 0 80px green";
+        } else if (distance < 3000) {
+          countdownElement.style.textShadow = "0 0 70px blue, 0 0 90px blue";
         }
 
         if (distance < 0) {
           clearInterval(interval);
           countdownElement.style.display = 'none'; // Hide countdown
-          triggerCelebration(); // Call celebration function
+
+          // Show first message for 20 seconds
+          firstMessage.innerHTML = firstMessageText;
+          firstMessage.style.display = 'block';
+          setTimeout(() => {
+            firstMessage.style.display = 'none'; // Hide first message
+
+            // Show second message for 10 seconds
+            secondMessage.innerHTML = secondMessageText;
+            secondMessage.style.display = 'block';
+            setTimeout(() => {
+              secondMessage.style.display = 'none'; // Hide second message
+
+              // Play the uploaded video
+              uploadedVideo.src = videoSrc; // Set the video source
+              uploadedVideo.style.display = 'block'; // Show the video
+              uploadedVideo.play(); // Play the video
+            }, 10000);
+          }, 20000);
         }
       }, 1000);
-    }
-
-    function triggerCelebration() {
-      const happyBirthdayMessage = document.getElementById('happyBirthdayMessage');
-      const customMessage = document.getElementById('customMessage');
-      const uploadedImage = document.getElementById('uploadedImage');
-
-      happyBirthdayMessage.innerHTML = `Happy Birthday ${name}!`;
-      customMessage.innerHTML = message;
-      happyBirthdayMessage.style.display = 'block';
-      customMessage.style.display = 'block';
-      uploadedImage.src = imageSrc; // Set the image source
-      uploadedImage.style.display = 'block'; // Show the image
-    }
-
-    function goBack() {
-      window.location.href = "index.html"; // Update with your actual input page filename
     }
 
     startCountdown(); // Start the countdown
