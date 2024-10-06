@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Birthday Input Page</title>
+  <style>
+    body {
+      background-color: #50C878; /* Emerald green */
+      color: #fff;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+    .inputField {
+      margin: 20px;
+      padding: 10px;
+      background-color: lightgreen; /* Input background color */
+    }
+    .button {
+      padding: 10px 20px;
+      margin-top: 20px;
+    }
+    .link {
+      display: none;
+      margin-top: 20px;
+      color: yellow; /* Color for the link */
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Birthday Celebration</h1>
+  <input type="text" id="nameInput" class="inputField" placeholder="Enter Name" required>
+  <input type="datetime-local" id="dateInput" class="inputField" placeholder="Enter Countdown Date" required>
+  <input type="text" id="messageInput" class="inputField" placeholder="Enter Message" required>
+  <input type="file" id="imageInput" class="inputField" accept="image/*" required>
+  <button class="button" onclick="generateLink()">Submit</button>
+
+  <div class="link" id="generatedLink"></div>
+
+  <script>
+    function generateLink() {
+      const name = document.getElementById('nameInput').value;
+      const countdownDate = new Date(document.getElementById('dateInput').value).getTime();
+      const message = document.getElementById('messageInput').value;
+      const imageFile = document.getElementById('imageInput').files[0];
+
+      if (!name || !countdownDate || !message || !imageFile) {
+        alert("Please fill out all fields.");
+        return;
+      }
+
+      // Create a unique link (could be improved with actual URL routing)
+      const uniqueLink = `countdown.html?name=${encodeURIComponent(name)}&message=${encodeURIComponent(message)}&image=${encodeURIComponent(URL.createObjectURL(imageFile))}&countdownDate=${countdownDate}`;
+      
+      // Display the generated link
+      const linkElement = document.getElementById('generatedLink');
+      linkElement.innerHTML = `<a href="${uniqueLink}" target="_blank">Click here for the countdown page</a>`;
+      linkElement.style.display = 'block';
+    }
+  </script>
+
+</body>
+</html>
