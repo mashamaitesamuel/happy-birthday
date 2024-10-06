@@ -36,17 +36,17 @@
       padding: 10px 20px;
       position: absolute;
       left: 20px; /* Position the button to the left */
-      top: 20px; /* Position the button from the top */
+      bottom: 20px; /* Position the button at the bottom */
     }
   </style>
 </head>
 <body>
 
-  <button class="button" onclick="goBack()">Back</button>
   <div id="countdown"></div>
   <div id="happyBirthdayMessage"></div>
   <div id="customMessage"></div>
   <img id="uploadedImage" src="" alt="Uploaded Image">
+  <button class="button" onclick="goBack()">Back</button>
 
   <script>
     const params = new URLSearchParams(window.location.search);
@@ -96,7 +96,6 @@
       customMessage.style.display = 'block';
       uploadedImage.src = imageSrc; // Set the image source
       uploadedImage.style.display = 'block'; // Show the image
-      uploadedImage.style.margin = '20px auto'; // Center the image
     }
 
     function goBack() {
