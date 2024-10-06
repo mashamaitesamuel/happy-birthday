@@ -7,6 +7,9 @@
   <style>
     body {
       background-color: #50C878; /* Emerald green */
+      background-image: linear-gradient(270deg, #50C878, #66BB6A, #81C784, #A5D6A7, #C8E6C9, #FF6347, #FFD700, #FF4500);
+      background-size: 400%; /* Increase size for smooth transition */
+      animation: gradient 10s ease infinite; /* Animation for the background */
       color: #fff;
       font-family: Arial, sans-serif;
       text-align: center;
@@ -17,6 +20,11 @@
       flex-direction: column;
       justify-content: center; /* Center vertically */
       align-items: center; /* Center horizontally */
+    }
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
     #countdown {
       font-size: 96px; /* Two times the size */
@@ -52,9 +60,6 @@
 
     function startCountdown() {
       const countdownElement = document.getElementById('countdown');
-      const firstMessage = document.getElementById('firstMessage');
-      const secondMessage = document.getElementById('secondMessage');
-      const uploadedVideo = document.getElementById('uploadedVideo');
       const interval = setInterval(function() {
         const now = new Date().getTime();
         const distance = countdownDate - now;
@@ -86,18 +91,21 @@
           countdownElement.style.display = 'none'; // Hide countdown
 
           // Show first message for 20 seconds
+          const firstMessage = document.getElementById('firstMessage');
           firstMessage.innerHTML = firstMessageText;
           firstMessage.style.display = 'block';
           setTimeout(() => {
             firstMessage.style.display = 'none'; // Hide first message
 
             // Show second message for 10 seconds
+            const secondMessage = document.getElementById('secondMessage');
             secondMessage.innerHTML = secondMessageText;
             secondMessage.style.display = 'block';
             setTimeout(() => {
               secondMessage.style.display = 'none'; // Hide second message
 
               // Play the uploaded video
+              const uploadedVideo = document.getElementById('uploadedVideo');
               uploadedVideo.src = videoSrc; // Set the video source
               uploadedVideo.style.display = 'block'; // Show the video
               uploadedVideo.play(); // Play the video
